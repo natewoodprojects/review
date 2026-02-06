@@ -1,0 +1,24 @@
+<div class="upload-module">
+  <h2>Upload a New File</h2>
+  <%= form_with(model: @sheet, local: true, html: { multipart: true }) do |form| %>
+    <div class="field">
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+
+    <div class="field">
+      <%= form.label :file %>
+
+      <div id="drop-zone" class="drop-zone" style="margin-top: 5px">
+        <p>Drag & drop a file here<br>or click to choose</p>
+        <%= form.file_field :file, id: "file-input", hidden: true %>
+      </div>
+
+      <p id="file-name" class="file-name"></p>
+    </div>
+
+    <div class="actions" style="margin-bottom: 450px">
+      <%= form.submit "Upload" %>
+    </div>
+  <% end %>
+</div>

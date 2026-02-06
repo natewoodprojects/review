@@ -1,0 +1,21 @@
+<div class="upload-module">
+  <h2>Edit Cards</h2>
+
+  <% @cards.each do |card| %>
+    <div class="card-row">
+      <%= form_with(model: card, local: true) do |f| %>
+        <div class="field">
+          <%= f.label :question %><br>
+          <%= f.text_field :question, value: card.question.capitalize %>
+        </div>
+
+        <div class="field">
+          <%= f.label :answer %><br>
+          <%= f.text_field :answer, value: card.answer.capitalize %>
+        </div>
+
+        <%= f.submit "Save" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

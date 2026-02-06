@@ -1,0 +1,32 @@
+<!-- app/views/cards/_card.html.erb -->
+
+<div class="sets">
+  <% @sets.each do |set| %>
+    <%= button_to set,
+          choose_deck_path(value: set),
+          method: :post,
+          class: "box value",
+          style: "margin: 5px" %>
+  <% end %>
+</div>
+
+
+<div class="container">
+  <div class="box">
+    <%= @card.question.capitalize %>
+  </div>
+
+  <div class="values">
+    <% @choices.each do |choice| %>
+      <%= button_to choice.capitalize,
+            guess_path(value: choice),
+            method: :post,
+            form: { data: { turbo_frame: "card" } },
+            class: "box value" %>
+    <% end %>
+  </div>
+
+  <div class="box">
+    <%= session[:correct] %> / <%= @deck_size %> correct
+  </div>
+</div>

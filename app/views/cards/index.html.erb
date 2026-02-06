@@ -1,0 +1,22 @@
+
+<div class="sets">
+  <% @sets.each do |set| %>
+    <button style="margin: 5px">
+      <%= link_to set, cards_path(params: set) %>
+    </button>
+  <% end %>
+</div>
+
+
+<div class="container">
+  <div class="box">
+    Question
+  </div>
+  <div class="box">
+   Abswer
+  </div>
+  <div class="box">
+    199
+  </div>
+  <div id="score" class="box">0 / 20 correct</div>
+</div>

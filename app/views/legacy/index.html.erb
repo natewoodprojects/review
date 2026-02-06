@@ -1,0 +1,307 @@
+
+<head>
+  <meta charset="UTF-8">
+  <title>Spanish Cards</title>
+  <style>
+ body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #716b6b;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.values {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 220px;
+}
+
+.box {
+  padding: 20px 30px;
+  border: 2px solid #333;
+  background: #a39c9c;
+  font-size: 18px;
+  min-width: 120px;
+  text-align: center;
+  user-select: none;
+}
+
+.value {
+  cursor: pointer;
+  background: #919ba2;
+}
+
+.value:hover {
+  background: #748a9c;
+}
+
+.wrong {
+  background: #82686b !important;
+}
+
+.right {
+  background: #5e7b6d !important;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="keyBox" class="box"></div>
+    <div id="values" class="values"></div>
+    <div id="score" class="box">0 / 20 correct</div>
+  </div>
+
+  <script>
+    const a_words = [
+      { key: "abatir", value: "to knock down" },
+      { key: "abrasar", value: "to burn" },
+      { key: "abrazar", value: "to hug" },
+      { key: "abrir", value: "to open" },
+      { key: "absolver", value: "to absolve" },
+      { key: "abstenerse", value: "to abstain" },
+      { key: "aburrir", value: "to annoy" },
+      { key: "aburrirse", value: "to be bored" },
+      { key: "acabar", value: "to finish" },
+      { key: "acelerar", value: "to accelerate" },
+      // 10 by Jan 10th
+      { key: "aceptar", value: "to accept" },
+      { key: "acercar", value: "to bring near" },
+      { key: "acercarse", value: "to approach" },
+      { key: "acertar", value: "to hit the mark" },
+      { key: "aclamar", value: "to aclaim" },
+      { key: "aclarar", value: "to explain" },
+      { key: "acompanar", value: "to accompany" },
+      { key: "aconsejar", value: "to counsel" },
+      { key: "acordar", value: "to agree" },
+      { key: "acordarse", value: "to remember" },
+      // 20 by Jan 17th
+      { key: "acostarse", value: "to go to bed" },
+      { key: "acostumbrar", value: "to be accustomed" },
+      { key: "acuchillar", value: "to cut open" },
+      { key: "acudir", value: "to attend" },
+      { key: "acusar", value: "to accuse" },
+      { key: "adelentar", value: "to advance" },
+      { key: "adelantarse", value: "to go forward" },
+      { key: "adivinar", value: "to divide" },
+      { key: "admirar", value: "to admire" },
+      { key: "admitir", value: "to admit" },
+      { key: "adoptar", value: "to adopt" },
+      // 30 by Jan 24th
+      { key: "adorar", value: "to worship" },
+      { key: "adquirir", value: "to obtain" },
+      { key: "advertir", value: "to warn" },
+      { key: "afeitarse", value: "to shave oneself" },
+      { key: "agarrar", value: "to seize" },
+      { key: "agitar", value: "to shake up" },
+      { key: "agotar", value: "to use up" },
+      { key: "agradar", value: "to please" },
+      { key: "agradecer", value: "to thank" },
+      { key: "agrandar", value: "to grow larger" },
+      // 40 by Jan 31st
+      { key: "agravar", value: "to make worse" },
+      { key: "agregar", value: "to add" },
+      { key: "agrupar", value: "to group" },
+      { key: "aguardar", value: "to expect" },
+      { key: "ahorrar", value: "to ecconomize" },
+      { key: "alcanzar", value: "to overtake" },
+      { key: "alegrarse", value: "to be happy" },
+      { key: "almorzar", value: "to have lunch" },
+      { key: "alquilar", value: "to rent" },
+      { key: "alumbrar", value: "to enlighten" },
+      // // 50 by Feb 7th
+      // { key: "alumbrarse", value: "to get tipsy" },
+      // { key: "alzar", value: "to heave" },
+      // { key: "amar", value: "to love" },
+      // { key: "añadir", value: "to add" },
+      // { key: "andar", value: "to walk" },
+      // { key: "anunciar", value: "to proclaim" },
+      // { key: "apagar", value: "to turn off" },
+      // { key: "aparecer", value: "to appear" },
+      // { key: "aplaudir", value: "to applaud" },
+      // { key: "apoderarse", value: "to take posession" },
+      // // 60 by Feb 14th
+      // { key: "apreciar", value: "to esteem" },
+      // { key: "aprender", value: "to learn" },
+      // { key: "apresurarse", value: "to hurry" },
+      // { key: "aprobar", value: "to pass a test" },
+      // { key: "aprovecharse", value: "to take advantage" },
+      // { key: "apurarse", value: "to fret" },
+      // { key: "arrancar", value: "to pull up" },
+      // { key: "arreglar", value: "to adjust" },
+      // { key: "arrojar", value: "to hurl" },
+      // { key: "articular", value: "to pronounce" },
+      // // 70 by Feb 21st
+      // { key: "asegurar", value: "to affirm" },
+      // { key: "asir", value: "to seize" },
+      // { key: "asistir", value: "to attend" },
+      // { key: "asustarse", value: "to be scared" },
+      // { key: "atacar", value: "to attack" },
+      // { key: "atenerse", value: "to rely on" },
+      // { key: "atraer", value: "to charm" },
+      // { key: "atravesar", value: "to go through" },
+      // { key: "atreverse", value: "to venture" },
+      // { key: "avanzar", value: "to advance" },
+      // // 80
+      // { key: "averiguar", value: "to find out" },
+      // { key: "ayudar", value: "to aid" },
+    ];
+    const padre = [
+      // { key: "a", value: "to" },
+      // { key: "de", value: "of" },
+      // { key: "día", value: "day" },
+      // { key: "el", value: "the" },
+      // { key: "en", value: "in" },
+      // { key: "es", value: "is" },
+      // { key: "y", value: "and" },
+      // { key: "Amen", value: "So be it." },
+      // { key: "ahora", value: "now" },
+      // { key: "que", value: "that" },
+      // { key: "tu", value: "your" },
+      // { key: "la", value: "the" },
+      // { key: "No", value: "not" },
+      { key: "cada", value: "each" },
+      // { key: "caer", value: "fall" },
+      // { key: "cielo", value: "sky" },
+      // { key: "como", value: "as" },
+      { key: "danos", value: "give us" },
+      { key: "dejas", value: "you leave" },
+      { key: "del", value: "from" },
+      // { key: "estás", value: "is" },
+      // { key: "gloria", value: "glory" },
+      { key: "hágase", value: "be done" }, //"Hágase" in Spanish is an imperative form of hacer (to do/make) combined with the reflexive pronoun se.
+      // { key: "hoy", value: "today" },
+      { key: "libranos", value: "deliver us" },
+      // { key: "los", value: "the" },
+      // { key: "mal", value: "evil" },
+      // { key: "nombre", value: "name" },
+      // { key: "nosotros", value: "we" },
+      // { key: "nuestras", value: "ours" },
+      // { key: "nuestro", value: "our" },
+      { key: "ofenden", value: "they offend" },
+      { key: "ofensas", value: "offenses" },
+      // { key: "padre", value: "Father" },
+      // { key: "pan", value: "bread" },
+      { key: "perdona", value: "forgive" },
+      { key: "perdonamos", value: "we forgive" },
+      { key: "poder", value: "power" },
+      // { key: "por", value: "for" },
+      // { key: "Porque", value: "because" },
+      { key: "reino", value: "kingdom" },
+      // { key: "santificado", value: "sanctified" },
+      { key: "sea", value: "be" },
+      // { key: "siempre", value: "always" },
+      { key: "también", value: "also" },
+      { key: "tentación", value: "temptation" },
+      // { key: "tierra", value: "earth" },
+      { key: "tuya", value: "yours" },
+      { key: "tuyo", value: "yours" },
+      { key: "venga", value: "come" },
+      { key: "voluntad", value: "willpower" },
+    ];
+
+    const directions = [
+      { key: "derecha", value: "right" },
+      { key: "izquierda", value: "left" },
+      { key: "norte", value: "north" },
+      { key: "sur", value: "south" },
+      { key: "este", value: "east" },
+      { key: "oeste", value: "west" },
+      { key: "noroeste", value: "northwest" },
+      { key: "noreste", value: "northeast" },
+      { key: "suroeste", value: "southwest" },
+      { key: "sureste", value: "southeast" },
+      { key: "derecho", value: "straight" },
+      { key: "girar", value: "to turn" },
+    ];
+
+    const pairs = directions;
+
+    var first_try = true;
+
+    const keyBox = document.getElementById("keyBox");
+    const valuesContainer = document.getElementById("values");
+    const scoreBox = document.getElementById("score");
+
+    let remainingPairs = [];
+    let correctGuesses = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function resetPairs() {
+      remainingPairs = shuffle([...pairs]);
+      correctGuesses = 0;
+      updateScore();
+    }
+
+    function updateScore() {
+      scoreBox.textContent = `${correctGuesses} / ${pairs.length} correct`;
+    }
+
+    function pickRandomSet() {
+      valuesContainer.innerHTML = "";
+
+      if (remainingPairs.length === 0) {
+        if (correctGuesses == pairs.length) {
+          alert("Yes, perfect score!");
+        } else {
+          alert("All pairs used! Resetting...");
+        }
+        resetPairs();
+      }
+
+      const correctPair = remainingPairs.pop();
+      keyBox.textContent = correctPair.key;
+
+      const incorrectValues = pairs
+        .filter((p) => p.value !== correctPair.value)
+        .map((p) => p.value);
+
+      const allValues = shuffle([
+        correctPair.value,
+        ...shuffle(incorrectValues).slice(0, 2),
+      ]);
+
+      allValues.forEach((value) => {
+        const div = document.createElement("div");
+        div.className = "box value";
+        div.textContent = value;
+
+        div.addEventListener("click", () => {
+          if (value === correctPair.value) {
+            div.classList.add("right");
+            if (first_try == true) {
+              correctGuesses++;
+            }
+            updateScore();
+            setTimeout(pickRandomSet, 150);
+            first_try = true;
+          } else {
+            div.classList.add("wrong");
+            setTimeout(() => div.classList.remove("wrong"), 300);
+            first_try = false;
+          }
+        });
+
+        valuesContainer.appendChild(div);
+      });
+    }
+
+    resetPairs();
+    pickRandomSet();
+  </script>
+</body>
